@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "76666208011",
+    "firebase_url": "https://myvideoplayer-23dbb.firebaseio.com",
+    "project_id": "myvideoplayer-23dbb",
+    "storage_bucket": "myvideoplayer-23dbb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:76666208011:android:bf15d9c79885e8f1",
+        "android_client_info": {
+          "package_name": "work.demo.com.cameracropselfstudy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "76666208011-at5h5s8nqlmuf447c1lsd4nv1eio376l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "work.demo.com.cameracropselfstudy",
+            "certificate_hash": "c1ad5f9b849c00a5997579dc73721ffcdef154d8"
+          }
+        },
+        {
+          "client_id": "76666208011-9otnmacjglde200ig6f3fvosgclt87nu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCT-JvyEc6BA4oXiONuHLcGuY2eh63APzU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "76666208011-9otnmacjglde200ig6f3fvosgclt87nu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

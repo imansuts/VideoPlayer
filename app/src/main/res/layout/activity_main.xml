@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".Activity.MainActivity">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Camera"
+        android:visibility="gone"
+        android:id="@+id/camera" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Video From Gallery"
+        android:visibility="gone"
+        android:layout_below="@+id/camera"
+        android:id="@+id/gallery" />
+
+    <Button
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="Get Location Without Google API"
+        android:visibility="gone"
+        android:layout_below="@+id/gallery"
+        android:id="@+id/btn_loc" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textview1"
+        android:visibility="gone"
+        android:textColor="@color/colorPrimary"
+        android:layout_below="@+id/btn_loc"/>
+
+    <com.theartofdev.edmodo.cropper.CropImageView
+        app:cropGuidelines="off"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:visibility="gone"
+        android:id="@+id/imageView"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/btn_loc"
+        android:src="@mipmap/ic_launcher" />
+
+    <work.demo.com.cameracropselfstudy.CustomViews.StretchVideoView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="50dp"
+        android:layout_below="@+id/imageView"
+        android:visibility="gone"
+        android:id="@+id/video_view"/>
+
+
+
+</RelativeLayout>
