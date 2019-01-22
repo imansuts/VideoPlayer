@@ -642,7 +642,7 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
     };
 
     public interface ServiceInterface {
-      public void PassDataFromActivityToService(Activity activity);
+      void PassDataFromActivityToService(Activity activity);
     }
 
 
