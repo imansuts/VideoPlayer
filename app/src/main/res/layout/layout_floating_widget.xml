@@ -26,7 +26,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="8dp"
-                android:src="@drawable/play_button"
+                android:src="@drawable/play_pause"
                 tools:ignore="ContentDescription"/>
 
             <!--Close button-->
@@ -88,7 +88,7 @@
                     android:layout_height="50dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="10dp"
-                    android:src="@drawable/play_button"
+                    android:src="@drawable/play_pause"
                     tools:ignore="ContentDescription"/>
 
                 <!--Next button-->
