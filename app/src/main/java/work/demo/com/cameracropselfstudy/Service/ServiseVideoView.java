@@ -2,6 +2,7 @@ package work.demo.com.cameracropselfstudy.Service;
 
 import android.app.Activity;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -16,6 +17,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -88,7 +90,7 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
     }
 
     public class MyBinder extends Binder implements ServiceInterface {
-        public ServiseVideoView getService(){
+        public ServiseVideoView getService() {
             return ServiseVideoView.this;
         }
 
@@ -114,14 +116,13 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
         super.onCreate();
         registerReceiver(this.BroadcastForPlayPauseButton, new IntentFilter("BroadcastForPlayPauseButton"));
         registerReceiver(this.broadcastReceiver_noti_or_floating, new IntentFilter("broadcastReceiver_noti_or_floating"));
-        notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         Log.d("servideChk_onCreate ", "true");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d("servideChk_onStartComm ", "true");
-
 
 
         if (intent.getAction().equals(Constant.ACTION.STARTFOREGROUND_ACTION)) {
@@ -150,9 +151,9 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
 
             Log.i(LOG_TAG, "Clicked Previous");
 
-        }*/else if (intent.getAction().equals(Constant.ACTION.PREV_ACTION)) {
+        }*/ else if (intent.getAction().equals(Constant.ACTION.PREV_ACTION)) {
 
-            if (!((MainActivity)activity_parent).GetCheckingOfController()) {
+            if (!((MainActivity) activity_parent).GetCheckingOfController()) {
                 PlayMusic(Uri.parse(current_uri_playing_media_or_video), false);
             }
 
@@ -160,7 +161,7 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
 
         } else if (intent.getAction().equals(Constant.ACTION.PLAY_ACTION)) {
 
-            if (mediaPlayer.isPlaying()){
+            if (mediaPlayer.isPlaying()) {
                 /*views.setImageViewResource(R.id.status_bar_play,
                         R.drawable.apollo_holo_dark_play);*/
 
@@ -176,14 +177,14 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
 
 //                CompletionOfMedia(true);
 
-            }else {
+            } else {
                 /*views.setImageViewResource(R.id.status_bar_play, R.drawable.apollo_holo_dark_pause);*/
 
-                try{
+                try {
                     mediaPlayer.stop();
                     mediaPlayer.reset();
                     mediaPlayer.release();
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 mediaPlayer = MediaPlayer.create(activity_parent, Uri.parse(current_uri_playing_media_or_video));
@@ -206,7 +207,7 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
             Log.d("seek_pp_service: ", String.valueOf(video_pos_notification_play_pause));
         } else if (intent.getAction().equals(Constant.ACTION.NEXT_ACTION)) {
 
-            if (!((MainActivity)activity_parent).GetCheckingOfController()) {
+            if (!((MainActivity) activity_parent).GetCheckingOfController()) {
                 PlayMusic(Uri.parse(current_uri_playing_media_or_video), true);
             }
 
@@ -216,7 +217,7 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
                 Constant.ACTION.STOPFOREGROUND_ACTION)) {
             Log.i(LOG_TAG, "Received Stop Foreground Intent");
 
-            if (activity_parent!=null) {
+            if (activity_parent != null) {
                 activity_parent.finish();
             }
 //            stopForeground(true);
@@ -235,34 +236,34 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
         if (!TextUtils.isEmpty(current_uri_playing_media_or_video) && !current_uri_playing_media_or_video.equals("null")) {
 
 
-                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(MediaPlayer mp) {
-                        if (!((MainActivity) activity_parent).GetCheckingOfController()) {
-                            PlayMusic(Uri.parse(current_uri_playing_media_or_video), b);
-                        } else {
-                            BroadCastForPauseButtonInNotification(false);
-                        }
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    if (!((MainActivity) activity_parent).GetCheckingOfController()) {
+                        PlayMusic(Uri.parse(current_uri_playing_media_or_video), b);
+                    } else {
+                        BroadCastForPauseButtonInNotification(false);
                     }
-                });
+                }
+            });
 
         }
     }
 
     private void DestroyNotification() {
-        if (notificationManager!=null) {
+        if (notificationManager != null) {
             notificationManager.cancel(Constant.NOTIFICATION_ID.FOREGROUND_SERVICE);
         }
     }
 
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         try {
             DestroyFloatingView();
             unregisterReceiver(BroadcastForPlayPauseButton);
             unregisterReceiver(broadcastReceiver_noti_or_floating);
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.e("Error: ", "Problem with Unregister Broadcast");
         }
 
@@ -288,9 +289,9 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
 
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            Log.d("Unbind_error_check: " , e.getMessage());
+            Log.d("Unbind_error_check: ", e.getMessage());
         }
         return super.onUnbind(intent);
     }
@@ -323,12 +324,12 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
         sendBroadcast(broadcast);
     }*/
 
-    public int getVideoPos(){
+    public int getVideoPos() {
         int return_pos = 0;
-        if (mediaPlayer!=null) {
+        if (mediaPlayer != null) {
             try {
                 return_pos = mediaPlayer.getCurrentPosition() + 120;
-            }catch (Exception e){
+            } catch (Exception e) {
                 return_pos = stretchVideoView_floating.getCurrentPosition() + 120;
                 e.printStackTrace();
             }
@@ -342,10 +343,9 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
         return 0;
     }
 
-    public String getVideoPath(){
+    public String getVideoPath() {
         return current_uri_playing_media_or_video;
     }
-
 
 
     private ArrayList<String> SplitStringToArray(String s) {
@@ -388,36 +388,36 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
         current_uri_playing_media_or_video = "";
         if (b) {
             current_uri_playing_media_or_video = string_video_path_reconstruction + (++video_pos);
-        }else {
+        } else {
             current_uri_playing_media_or_video = string_video_path_reconstruction + (--video_pos);
         }
         Log.d("video_check_next: ", current_uri_playing_media_or_video);
         if (CheckForFileExistedOrNot(current_uri_playing_media_or_video)) {
 
-                mediaPlayer.stop();
-                mediaPlayer.reset();
-                mediaPlayer.release();
-                mediaPlayer = MediaPlayer.create(getApplicationContext(), Uri.parse(current_uri_playing_media_or_video));
-                mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                mediaPlayer.start();
+            mediaPlayer.stop();
+            mediaPlayer.reset();
+            mediaPlayer.release();
+            mediaPlayer = MediaPlayer.create(getApplicationContext(), Uri.parse(current_uri_playing_media_or_video));
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            mediaPlayer.start();
 
-        }else {
+        } else {
 
-            do{
+            do {
                 current_uri_playing_media_or_video = "";
                 if (b) {
                     current_uri_playing_media_or_video = string_video_path_reconstruction + (++video_pos);
-                }else {
+                } else {
                     current_uri_playing_media_or_video = string_video_path_reconstruction + (--video_pos);
                 }
-            }while (CheckForFileExistedOrNot(current_uri_playing_media_or_video));
+            } while (CheckForFileExistedOrNot(current_uri_playing_media_or_video));
 
-                mediaPlayer.stop();
-                mediaPlayer.reset();
-                mediaPlayer.release();
-                mediaPlayer = MediaPlayer.create(getApplicationContext(), Uri.parse(current_uri_playing_media_or_video));
-                mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                mediaPlayer.start();
+            mediaPlayer.stop();
+            mediaPlayer.reset();
+            mediaPlayer.release();
+            mediaPlayer = MediaPlayer.create(getApplicationContext(), Uri.parse(current_uri_playing_media_or_video));
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            mediaPlayer.start();
 
 
         }
@@ -453,7 +453,7 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
         current_uri_playing_media_or_video = "";
         if (b) {
             current_uri_playing_media_or_video = string_video_path_reconstruction + (++video_pos);
-        }else {
+        } else {
             current_uri_playing_media_or_video = string_video_path_reconstruction + (--video_pos);
         }
         Log.d("video_check_next: ", current_uri_playing_media_or_video);
@@ -463,16 +463,16 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
             stretchVideoView_floating.setVideoURI(Uri.parse(current_uri_playing_media_or_video));
             stretchVideoView_floating.start();
 
-        }else {
+        } else {
 
-            do{
+            do {
                 current_uri_playing_media_or_video = "";
                 if (b) {
                     current_uri_playing_media_or_video = string_video_path_reconstruction + (++video_pos);
-                }else {
+                } else {
                     current_uri_playing_media_or_video = string_video_path_reconstruction + (--video_pos);
                 }
-            }while (CheckForFileExistedOrNot(current_uri_playing_media_or_video));
+            } while (CheckForFileExistedOrNot(current_uri_playing_media_or_video));
 
             stretchVideoView_floating.stopPlayback();
             stretchVideoView_floating.setVideoURI(Uri.parse(current_uri_playing_media_or_video));
@@ -487,14 +487,14 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
         if (!TextUtils.isEmpty(current_uri_playing_media_or_video) && !current_uri_playing_media_or_video.equals("null")) {
 
 
-                stretchVideoView_floating.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(MediaPlayer mp) {
-                        if (!((MainActivity) activity_parent).GetCheckingOfController()) {
-                            PlayVideo(getVideoUri(), b);
-                        }
+            stretchVideoView_floating.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    if (!((MainActivity) activity_parent).GetCheckingOfController()) {
+                        PlayVideo(getVideoUri(), b);
                     }
-                });
+                }
+            });
 
         }
     }
@@ -502,26 +502,26 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
 
     private boolean CheckForFileExistedOrNot(String s) {
 
-            ContentResolver cr = getContentResolver();
-            String[] projection = {MediaStore.MediaColumns.DATA};
-            Cursor cur = cr.query(Uri.parse(s), projection, null, null, null);
-            if (cur != null) {
-                if (cur.moveToFirst()) {
-                    String filePath = cur.getString(0);
+        ContentResolver cr = getContentResolver();
+        String[] projection = {MediaStore.MediaColumns.DATA};
+        Cursor cur = cr.query(Uri.parse(s), projection, null, null, null);
+        if (cur != null) {
+            if (cur.moveToFirst()) {
+                String filePath = cur.getString(0);
 
-                    if (new File(filePath).exists()) {
-                        // do something if it exists
-                        return true;
-                    } else {
-                        // File was not found
-                    }
+                if (new File(filePath).exists()) {
+                    // do something if it exists
+                    return true;
                 } else {
-                    // Uri was ok but no entry found.
+                    // File was not found
                 }
-                cur.close();
             } else {
-                // content Uri was invalid or some other error occurred
+                // Uri was ok but no entry found.
             }
+            cur.close();
+        } else {
+            // content Uri was invalid or some other error occurred
+        }
 
         return false;
     }
@@ -529,13 +529,13 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
 
     private void showNotification() {
 
-    // Using RemoteViews to bind custom layouts into Notification
+        // Using RemoteViews to bind custom layouts into Notification
         views = new RemoteViews(getPackageName(),
                 R.layout.status_bar);
         bigViews = new RemoteViews(getPackageName(),
                 R.layout.status_bar_expanded);
 
-    // showing default album image
+        // showing default album image
         views.setViewVisibility(R.id.status_bar_icon, View.VISIBLE);
         views.setViewVisibility(R.id.status_bar_album_art, View.GONE);
         bigViews.setImageViewBitmap(R.id.status_bar_album_art,
@@ -591,7 +591,7 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
         if (mediaPlayer.isPlaying()) {
             views.setImageViewResource(R.id.status_bar_play, R.drawable.apollo_holo_dark_pause);
             bigViews.setImageViewResource(R.id.status_bar_play, R.drawable.apollo_holo_dark_pause);
-        }else {
+        } else {
             views.setImageViewResource(R.id.status_bar_play, R.drawable.apollo_holo_dark_play);
             bigViews.setImageViewResource(R.id.status_bar_play, R.drawable.apollo_holo_dark_play);
         }
@@ -611,7 +611,27 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
         status.icon = R.drawable.ic_launcher;
 //        status.contentIntent = pendingIntent;
         notificationManager.notify(Constant.NOTIFICATION_ID.FOREGROUND_SERVICE, status);
+
+        createNotificationChannel();
 //        startForeground(Constant.NOTIFICATION_ID.FOREGROUND_SERVICE, status);
+    }
+
+    String CHANNEL_ID = "1";
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "VideoPlayer";
+            String description = "Background VideoPlayer";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+//            notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
 
@@ -628,7 +648,7 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
 
                 notificationManager.notify(Constant.NOTIFICATION_ID.FOREGROUND_SERVICE, status);
 //                startForeground(Constant.NOTIFICATION_ID.FOREGROUND_SERVICE, status);
-            }else {
+            } else {
 
                 views.setImageViewResource(R.id.status_bar_play,
                         R.drawable.apollo_holo_dark_play);
@@ -642,12 +662,11 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
     };
 
     public interface ServiceInterface {
-      void PassDataFromActivityToService(Activity activity);
+        void PassDataFromActivityToService(Activity activity);
     }
 
 
-
-    private void ServiceVideoViewFloatingWidgetInit(){
+    private void ServiceVideoViewFloatingWidgetInit() {
         mFloatingView = LayoutInflater.from(this).inflate(R.layout.layout_floating_widget, null);
 
         //Add the view_floating_background_transparent to the window.
@@ -657,19 +676,19 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
                 WindowManager.LayoutParams.TYPE_PHONE,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.TRANSLUCENT);*/
-        if (android.os.Build.VERSION.SDK_INT >= 23 && android.os.Build.VERSION.SDK_INT<26) {
+        if (android.os.Build.VERSION.SDK_INT >= 23 && android.os.Build.VERSION.SDK_INT < 26) {
             params = new WindowManager.LayoutParams(
                     WindowManager.LayoutParams.WRAP_CONTENT,
                     WindowManager.LayoutParams.WRAP_CONTENT,
                     WindowManager.LayoutParams.TYPE_PHONE,
                     WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                     PixelFormat.TRANSLUCENT);
-        }else if (android.os.Build.VERSION.SDK_INT>=26){
+        } else if (android.os.Build.VERSION.SDK_INT >= 26) {
             params = new WindowManager.LayoutParams(
                     WindowManager.LayoutParams.WRAP_CONTENT,
                     WindowManager.LayoutParams.WRAP_CONTENT,
                     WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-                    WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE ,
+                    WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                     PixelFormat.TRANSLUCENT);
         }
 
@@ -688,25 +707,26 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
         ServiceVideoViewFloatingWidgetFunction();
     }
 
-    private void DestroyFloatingView(){
+    private void DestroyFloatingView() {
         if (mFloatingView.isAttachedToWindow()) {
             if (mFloatingView != null) mWindowManager.removeView(mFloatingView);
         }
     }
 
 
-    private Uri getVideoUri(){
+    private Uri getVideoUri() {
         Uri mUri = null;
         try {
             Field mUriField = VideoView.class.getDeclaredField("mUri");
             mUriField.setAccessible(true);
-            mUri = (Uri)mUriField.get(stretchVideoView_floating);
-        } catch(Exception e) {}
+            mUri = (Uri) mUriField.get(stretchVideoView_floating);
+        } catch (Exception e) {
+        }
         return mUri;
     }
 
 
-    private void ServiceVideoViewFloatingWidgetFunction(){
+    private void ServiceVideoViewFloatingWidgetFunction() {
 
         //The root element of the collapsed view_floating_background_transparent layout
         collapsedView = mFloatingView.findViewById(R.id.collapse_view);
@@ -714,7 +734,7 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
         expandedView = mFloatingView.findViewById(R.id.expanded_container);
 
 
-        stretchVideoView_floating = (StretchVideoView)mFloatingView.findViewById(R.id.floating_video_view);
+        stretchVideoView_floating = (StretchVideoView) mFloatingView.findViewById(R.id.floating_video_view);
         /*stretchVideoView_floating.setVideoURI(Uri.parse(current_uri_playing_media_or_video));
         stretchVideoView_floating.seekTo(video_seek_pos);
         stretchVideoView_floating.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
@@ -730,7 +750,7 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
             @Override
             public void onClick(View view) {
                 //close the service and remove the from from the window
-                if (activity_parent!=null) {
+                if (activity_parent != null) {
                     activity_parent.finish();
                 }
 //                stopForeground(true);
@@ -747,10 +767,10 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (stretchVideoView_floating.isPlaying()){
+                if (stretchVideoView_floating.isPlaying()) {
                     video_seek_pos = stretchVideoView_floating.getCurrentPosition();
                     stretchVideoView_floating.pause();
-                }else {
+                } else {
                     stretchVideoView_floating.seekTo(video_seek_pos);
                     stretchVideoView_floating.start();
                 }
@@ -765,7 +785,7 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
             @Override
             public void onClick(View v) {
 //                Toast.makeText(getApplicationContext(), "Playing next song.", Toast.LENGTH_LONG).show();
-                if (!((MainActivity)activity_parent).GetCheckingOfController()) {
+                if (!((MainActivity) activity_parent).GetCheckingOfController()) {
                     PlayVideo(getVideoUri(), true);
                 }
             }
@@ -778,15 +798,15 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
             @Override
             public void onClick(View v) {
 //                Toast.makeText(getApplicationContext(), "Playing previous song.", Toast.LENGTH_LONG).show();
-                if (!((MainActivity)activity_parent).GetCheckingOfController()) {
+                if (!((MainActivity) activity_parent).GetCheckingOfController()) {
                     PlayVideo(getVideoUri(), false);
                 }
             }
         });
-        if (boolean_chk_for_btn_show){
+        if (boolean_chk_for_btn_show) {
             nextButton.setVisibility(View.INVISIBLE);
             prevButton.setVisibility(View.INVISIBLE);
-        }else {
+        } else {
             nextButton.setVisibility(View.VISIBLE);
             prevButton.setVisibility(View.VISIBLE);
         }
@@ -800,7 +820,7 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
                 aBoolean_check_for_media_or_video = false;
 
                 Uri current_path = null;
-                video_seek_pos = stretchVideoView_floating.getCurrentPosition()+150;
+                video_seek_pos = stretchVideoView_floating.getCurrentPosition() + 150;
                 current_path = getVideoUri();
                 if (stretchVideoView_floating.isPlaying()) {
                     stretchVideoView_floating.stopPlayback();
@@ -810,7 +830,7 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
 
                     BroadCastForPauseButtonInNotification(true);
                     Log.d("vido_position_close_1: ", String.valueOf(video_seek_pos));
-                }else {
+                } else {
                     stretchVideoView_floating.stopPlayback();
                     mediaPlayer = MediaPlayer.create(getApplicationContext(), current_path);
                     mediaPlayer.seekTo(video_seek_pos);
@@ -822,7 +842,6 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
                 stretchVideoView_floating.setVisibility(View.GONE);
                 expandedView.setVisibility(View.GONE);
                 collapsedView.setVisibility(View.VISIBLE);
-
 
 
                 Intent intent_broadcast = new Intent();
@@ -864,9 +883,9 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
 //        TouchGestureOfFloatingView();
     }
 
-    private void TouchGestureOfFloatingView(){
+    private void TouchGestureOfFloatingView() {
         //Drag and move floating view_floating_background_transparent using user'current_uri_playing_media_or_video touch action.
-        if (mFloatingView!=null) {
+        if (mFloatingView != null) {
             mFloatingView.findViewById(R.id.root_container).setOnTouchListener(new View.OnTouchListener() {
                 private int initialX;
                 private int initialY;
@@ -912,19 +931,19 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
                                         WindowManager.LayoutParams.TYPE_PHONE,
                                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                                         PixelFormat.TRANSPARENT);*/
-                                if (android.os.Build.VERSION.SDK_INT >= 23 && android.os.Build.VERSION.SDK_INT<26) {
+                                if (android.os.Build.VERSION.SDK_INT >= 23 && android.os.Build.VERSION.SDK_INT < 26) {
                                     params_cloase = new WindowManager.LayoutParams(
                                             WindowManager.LayoutParams.MATCH_PARENT,
                                             WindowManager.LayoutParams.MATCH_PARENT,
                                             WindowManager.LayoutParams.TYPE_PHONE,
                                             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                                             PixelFormat.TRANSLUCENT);
-                                }else if (android.os.Build.VERSION.SDK_INT>=26){
+                                } else if (android.os.Build.VERSION.SDK_INT >= 26) {
                                     params_cloase = new WindowManager.LayoutParams(
                                             WindowManager.LayoutParams.MATCH_PARENT,
                                             WindowManager.LayoutParams.MATCH_PARENT,
                                             WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-                                            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE ,
+                                            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                                             PixelFormat.TRANSLUCENT);
                                 }
 
@@ -1073,7 +1092,6 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
     }
 
 
-
     private boolean isViewCollapsed() {
         return mFloatingView == null || mFloatingView.findViewById(R.id.collapse_view).getVisibility() == View.VISIBLE;
     }
@@ -1081,9 +1099,9 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
     BroadcastReceiver broadcastReceiver_noti_or_floating = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getExtras().getBoolean("notification_floating")){
+            if (intent.getExtras().getBoolean("notification_floating")) {
                 DestroyNotification();
-            }else {
+            } else {
 
                 notificationManager.notify(Constant.NOTIFICATION_ID.FOREGROUND_SERVICE, status);
             }
@@ -1094,7 +1112,7 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
     private void BroadCastForPauseButtonInNotification(boolean b) {
         Intent broadcast = new Intent();
         broadcast.setAction("BroadcastForPlayPauseButton");
-        broadcast.putExtra("video_state",b);
+        broadcast.putExtra("video_state", b);
         sendBroadcast(broadcast);
     }
 
