@@ -135,7 +135,7 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
             Log.d("Service_path: ", string_path);
             current_uri_playing_media_or_video = string_path;
 
-            if (string_path != null && !string_path.equals("null")) {
+            if (mediaPlayer!=null && string_path != null && !string_path.equals("null")) {
                 mediaPlayer = MediaPlayer.create(getApplicationContext(), Uri.parse(current_uri_playing_media_or_video));
                 mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 mediaPlayer.seekTo(video_seek_pos);

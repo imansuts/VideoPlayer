@@ -1150,7 +1150,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return splitted_strings;
     }
 
+    int i_check_for_second_time_uri_null = 0;
     private void PlayVideo(Uri uri) {
+
+        if (uri ==null){
+            if (i_check_for_second_time_uri_null==1){
+                if (intent!=null){
+                    stopService(intent);
+                }
+                finishAffinity();
+                return;
+            }
+            i_check_for_second_time_uri_null = i_check_for_second_time_uri_null + 1;
+        }
 
         if (aBoolean_check_for_hide_bars) {
             FeelLikeVideoPlayer();
