@@ -161,43 +161,45 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
 
         } else if (intent.getAction().equals(Constant.ACTION.PLAY_ACTION)) {
 
-            if (mediaPlayer.isPlaying()) {
+            if (mediaPlayer != null) {
+                if (mediaPlayer.isPlaying()) {
                 /*views.setImageViewResource(R.id.status_bar_play,
                         R.drawable.apollo_holo_dark_play);*/
 
-                video_seek_pos = mediaPlayer.getCurrentPosition();
-                mediaPlayer.pause();
+                    video_seek_pos = mediaPlayer.getCurrentPosition();
+                    mediaPlayer.pause();
 
 
                 /*stopForeground(true);
                 stopSelf();*/
 
-                BroadCastForPauseButtonInNotification(false);
-                Log.d("Noti_isPlaying: ", String.valueOf(video_seek_pos));
+                    BroadCastForPauseButtonInNotification(false);
+                    Log.d("Noti_isPlaying: ", String.valueOf(video_seek_pos));
 
 //                CompletionOfMedia(true);
 
-            } else {
-                /*views.setImageViewResource(R.id.status_bar_play, R.drawable.apollo_holo_dark_pause);*/
+                } else {
+                    /*views.setImageViewResource(R.id.status_bar_play, R.drawable.apollo_holo_dark_pause);*/
 
-                try {
-                    mediaPlayer.stop();
-                    mediaPlayer.reset();
-                    mediaPlayer.release();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                mediaPlayer = MediaPlayer.create(activity_parent, Uri.parse(current_uri_playing_media_or_video));
-                mediaPlayer.seekTo(video_seek_pos);
-                mediaPlayer.start();
+                    try {
+                        mediaPlayer.stop();
+                        mediaPlayer.reset();
+                        mediaPlayer.release();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    mediaPlayer = MediaPlayer.create(activity_parent, Uri.parse(current_uri_playing_media_or_video));
+                    mediaPlayer.seekTo(video_seek_pos);
+                    mediaPlayer.start();
 
                 /*stopForeground(true);
                 stopSelf();*/
 
-                BroadCastForPauseButtonInNotification(true);
-                Log.d("Noti_isPaused: ", String.valueOf(video_seek_pos));
+                    BroadCastForPauseButtonInNotification(true);
+                    Log.d("Noti_isPaused: ", String.valueOf(video_seek_pos));
 
 
+                }
             }
 
             CompletionOfMedia(true);
@@ -588,12 +590,14 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
         views.setOnClickPendingIntent(R.id.status_bar_collapse, pcloseIntent);
         bigViews.setOnClickPendingIntent(R.id.status_bar_collapse, pcloseIntent);
 
-        if (mediaPlayer.isPlaying()) {
-            views.setImageViewResource(R.id.status_bar_play, R.drawable.apollo_holo_dark_pause);
-            bigViews.setImageViewResource(R.id.status_bar_play, R.drawable.apollo_holo_dark_pause);
-        } else {
-            views.setImageViewResource(R.id.status_bar_play, R.drawable.apollo_holo_dark_play);
-            bigViews.setImageViewResource(R.id.status_bar_play, R.drawable.apollo_holo_dark_play);
+        if (mediaPlayer != null) {
+            if (mediaPlayer.isPlaying()) {
+                views.setImageViewResource(R.id.status_bar_play, R.drawable.apollo_holo_dark_pause);
+                bigViews.setImageViewResource(R.id.status_bar_play, R.drawable.apollo_holo_dark_pause);
+            } else {
+                views.setImageViewResource(R.id.status_bar_play, R.drawable.apollo_holo_dark_play);
+                bigViews.setImageViewResource(R.id.status_bar_play, R.drawable.apollo_holo_dark_play);
+            }
         }
 
         /*views.setTextViewText(R.id.status_bar_track_name, "Song Title");
