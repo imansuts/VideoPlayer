@@ -253,7 +253,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 Uri mUri = null;
                 if (TextUtils.isEmpty(String.valueOf(uri_path)) && String.valueOf(uri_path).equals("null")
-                        || String.valueOf(uri_path)==null) {
+                        || String.valueOf(uri_path) == null) {
 
                     try {
                         Field mUriField = VideoView.class.getDeclaredField("mUri");
@@ -336,7 +336,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onSwipeRight(float v) {
                 Log.d("check_touch_swipe_R", "true");
-                videoView.seekTo((int)v*100 + videoView.getCurrentPosition());
+                videoView.seekTo((int) v * 100 + videoView.getCurrentPosition());
                 mediaController.hide();
                 CustomizationOfStatusBarAndNavigationBAr();
             }
@@ -344,7 +344,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onSwipeLeft(float v) {
                 Log.d("check_touch_swipe_L", "true");
-                videoView.seekTo((int)v*100 + videoView.getCurrentPosition());
+                videoView.seekTo((int) v * 100 + videoView.getCurrentPosition());
                 mediaController.hide();
 //                HideBars();
                 CustomizationOfStatusBarAndNavigationBAr();
@@ -353,10 +353,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onSwipeBottom(MotionEvent e2, MotionEvent e1) {
                 Log.d("check_touch_swipe_B", "true");
-                if (e2.getX()>videoView.getWidth()/2 && e1.getX()>videoView.getWidth()/2) {
+                if (e2.getX() > videoView.getWidth() / 2 && e1.getX() > videoView.getWidth() / 2) {
                     audioManager.adjustVolume(AudioManager.ADJUST_LOWER, AudioManager.FLAG_PLAY_SOUND);
 
-                }else {
+                } else {
 //                    Toast.makeText(context, "Swipe Bottom", Toast.LENGTH_SHORT).show();
                     int oldBrightness = 0;
                     try {
@@ -365,17 +365,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     } catch (Settings.SettingNotFoundException e) {
                         e.printStackTrace();
                     }
-                    if (oldBrightness<0){
+                    if (oldBrightness < 0) {
                         oldBrightness = 0;
                     }
 //                    android.provider.Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS,
 //                            oldBrightness-(int)((e2.getX()-e1.getX())));
 
-                    ScreenBrightness(oldBrightness-50, MainActivity.this);
+                    ScreenBrightness(oldBrightness - 50, MainActivity.this);
 
 //                    Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS,
 //                            oldBrightness-50);
-                    Log.d("brightness_down: " , String.valueOf(oldBrightness+(int)((e2.getX()-e1.getX()))));
+                    Log.d("brightness_down: ", String.valueOf(oldBrightness + (int) ((e2.getX() - e1.getX()))));
                 }
                 mediaController.hide();
             }
@@ -383,7 +383,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onSwipeTop(MotionEvent e2, MotionEvent e1) {
                 Log.d("check_touch_swipe_T", "true");
-                if (e2.getX()>videoView.getWidth()/2 && e1.getX()>videoView.getWidth()/2) {
+                if (e2.getX() > videoView.getWidth() / 2 && e1.getX() > videoView.getWidth() / 2) {
                     audioManager.adjustVolume(AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND);
                     /*int current_vol = audioManager.getStreamMaxVolume(AudioManager.FLAG_PLAY_SOUND);
                     int max_vol = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
@@ -392,7 +392,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }else {
                         audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, max_vol, AudioManager.ADJUST_RAISE);
                     }*/
-                }else {
+                } else {
 
                     int oldBrightness = 0;
                     try {
@@ -400,17 +400,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 Settings.System.SCREEN_BRIGHTNESS);
                     } catch (Settings.SettingNotFoundException e) {
                         e.printStackTrace();
-                    }if (oldBrightness<0){
+                    }
+                    if (oldBrightness < 0) {
                         oldBrightness = 0;
                     }
 //                    android.provider.Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS,
 //                            oldBrightness+(int)((e2.getX()-e1.getX())));
 
-                    ScreenBrightness(oldBrightness+50, MainActivity.this);
+                    ScreenBrightness(oldBrightness + 50, MainActivity.this);
 
 //                    Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS,
 //                            oldBrightness+50);
-                    Log.d("brightness_up: " , String.valueOf(oldBrightness+(int)((e2.getX()-e1.getX()))));
+                    Log.d("brightness_up: ", String.valueOf(oldBrightness + (int) ((e2.getX() - e1.getX()))));
                 }
                 mediaController.hide();
             }
@@ -544,11 +545,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
 
-
     }
 
     private void AdjustBrightness(int brightnessValue) {
-        if(brightnessValue >= 0 && brightnessValue <= 255){
+        if (brightnessValue >= 0 && brightnessValue <= 255) {
             Settings.System.putInt(
                     getContentResolver(),
                     Settings.System.SCREEN_BRIGHTNESS,
@@ -650,7 +650,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     PlayVideo(getIntent().getData());
                     SetStatusBarTransparent();
 //                    }
-                }else if (getIntent().getAction().equals(Constant.ACTION.INIT_ACTION)){
+                } else if (getIntent().getAction().equals(Constant.ACTION.INIT_ACTION)) {
                     aBoolean_check_for_mediaController_working = true;
                     videoView.setVisibility(View.VISIBLE);
                     String s = getIntent().getExtras().getString("video_path");
@@ -661,7 +661,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     PlayVideo(Uri.parse(s));
                     SetStatusBarTransparent();
 
-                }else if (getIntent().getAction().equals(Constant.INTENT_FOR_REOPEN_ACTIVITY)){
+                } else if (getIntent().getAction().equals(Constant.INTENT_FOR_REOPEN_ACTIVITY)) {
                     videoView.setVisibility(View.VISIBLE);
                     aBoolean_check_for_mediaController_working = false;
 
@@ -679,11 +679,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     Log.d("posssss: ", String.valueOf(i_pos));
                     Log.d("check_for_open: ", String.valueOf(getIntent().getExtras().getBoolean("Video_play_pause_check")));
-                    if (getIntent().getExtras().getBoolean("Video_play_pause_check")){
+                    if (getIntent().getExtras().getBoolean("Video_play_pause_check")) {
                         videoView.setVideoPath(getIntent().getExtras().getString("Video_uri"));
                         videoView.seekTo(i_pos);
                         videoView.start();
-                    }else {
+                    } else {
                         videoView.setVideoPath(getIntent().getExtras().getString("Video_uri"));
                         videoView.seekTo(i_pos);
                         videoView.pause();
@@ -701,7 +701,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 }
                                 CustomizationOfStatusBarAndNavigationBAr();
 
-                            }else {
+                            } else {
                                 Toast.makeText(MainActivity.this, "Select Video from the list", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -716,7 +716,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 }
                                 CustomizationOfStatusBarAndNavigationBAr();
 
-                            }else {
+                            } else {
                                 Toast.makeText(MainActivity.this, "Select Video from the list", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -735,7 +735,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void SetStatusBarTransparent(){
+    private void SetStatusBarTransparent() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         getWindow().setStatusBarColor(Color.TRANSPARENT);
@@ -794,7 +794,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivityForResult(intent, CODE_DRAW_OVER_OTHER_APP_PERMISSION);
         } else {
 //            initializeView();
-            if ( ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+            if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
                     && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
                     && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_SETTINGS) != PackageManager.PERMISSION_GRANTED
                     ) {
@@ -808,13 +808,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-        Log.d("aBoolean_service ",String.valueOf(aBoolean_check_for_service_opening));
+        Log.d("aBoolean_service ", String.valueOf(aBoolean_check_for_service_opening));
         if (aBoolean_check_for_service_opening) {
             if (aBoolean_check_bind) {
                 if (mBoundService.getVideoPos() != 0) {
                     videoView.stopPlayback();
                     videoView.setVideoURI(Uri.parse(mBoundService.getVideoPath()));
-                    videoView.seekTo(mBoundService.getVideoPos()+50);
+                    videoView.seekTo(mBoundService.getVideoPos() + 50);
                     videoView.start();
                     aBoolean_check_bind = false;
 
@@ -822,7 +822,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 }
             }
-        }else {
+        } else {
 
             videoView.seekTo(video_seek_pos);
             videoView.pause();
@@ -843,15 +843,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 try {
                     unbindService(mServiceConnection);
 
-                }catch (Exception e){
+                } catch (Exception e) {
 
                 }
             }
             stopService(intent);
         }
-
-
-
 
 
 //        senSensorManager.registerListener(this, senAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
@@ -865,7 +862,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 try {
                     unbindService(mServiceConnection);
 
-                }catch (Exception e){
+                } catch (Exception e) {
 
                 }
             }
@@ -883,7 +880,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 try {
                     unbindService(mServiceConnection);
 
-                }catch (Exception e){
+                } catch (Exception e) {
 
                 }
             }
@@ -1045,7 +1042,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
     private void initializeView() {
         onResume();
     }
@@ -1065,8 +1061,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else {
 
             }*/
-        }else
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+        } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
                 Uri resultUri = result.getUri();
@@ -1219,7 +1214,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }else {
                         Toast.makeText(MainActivity.this, "No more videos", Toast.LENGTH_SHORT).show();
                     }*/
-                }else {
+                } else {
                     Toast.makeText(MainActivity.this, "Select Video from the list", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -1240,9 +1235,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }else {
                         Toast.makeText(MainActivity.this, "No more videos", Toast.LENGTH_SHORT).show();
                     }*/
-                }else {
-                        Toast.makeText(MainActivity.this, "Select Video from the list", Toast.LENGTH_SHORT).show();
-                    }
+                } else {
+                    Toast.makeText(MainActivity.this, "Select Video from the list", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -1258,10 +1253,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         CustomizationOfStatusBarAndNavigationBAr();
 
 
-
     }
 
-    private void PlayPrevVideo(){
+    private void PlayPrevVideo() {
         String s = "";
         s = string_video_path_reconstruction + (--video_pos);
         Log.d("video_check_next: ", s);
@@ -1276,10 +1270,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             });
         } else {
 
-            do{
+            do {
                 s = "";
                 s = string_video_path_reconstruction + (--video_pos);
-            }while (CheckForFileExistedOrNot(s));
+            } while (CheckForFileExistedOrNot(s));
             videoView.setVideoURI(Uri.parse(s));
 //                    videoView.requestFocus();
             videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
@@ -1292,7 +1286,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void PlayNextVideo(){
+    private void PlayNextVideo() {
         String s = "";
         s = string_video_path_reconstruction + (++video_pos);
         Log.d("video_check_next: ", s);
@@ -1307,23 +1301,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             });
         } else {
 
-            do{
+            do {
                 s = "";
                 s = string_video_path_reconstruction + (++video_pos);
-            }while (CheckForFileExistedOrNot(s));
-            videoView.setVideoURI(Uri.parse(s));
+            } while (CheckForFileExistedOrNot(s));
+            if (!TextUtils.isEmpty(s)) {
+                videoView.setVideoURI(Uri.parse(s));
 //                    videoView.requestFocus();
-            videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    videoView.start();
-                }
-            });
+                videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                    @Override
+                    public void onPrepared(MediaPlayer mp) {
+                        videoView.start();
+                    }
+                });
+            }
 
         }
     }
 
-    private void CustomizationOfStatusBarAndNavigationBAr(){
+    private void CustomizationOfStatusBarAndNavigationBAr() {
 
         ShowBars();
         new Handler().postDelayed(new Runnable() {
@@ -1334,6 +1330,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }, 1500);
     }
+
     @Override
     public void onLocationChanged(Location location) {
 
@@ -1465,14 +1462,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    private Uri getVideoUri(){
+    private Uri getVideoUri() {
 
         Uri mUri = null;
         try {
             Field mUriField = VideoView.class.getDeclaredField("mUri");
             mUriField.setAccessible(true);
-            mUri = (Uri)mUriField.get(videoView);
-        } catch(Exception e) {}
+            mUri = (Uri) mUriField.get(videoView);
+        } catch (Exception e) {
+        }
 
         return mUri;
     }
@@ -1481,23 +1479,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onStop() {
 
 
-            if (videoView.getCurrentPosition() != 0) {
-                video_seek_pos = videoView.getCurrentPosition();
-            }
-            last_played_video_path = String.valueOf(getVideoUri());
-            videoView.stopPlayback();
+        if (videoView.getCurrentPosition() != 0) {
+            video_seek_pos = videoView.getCurrentPosition();
+        }
+        last_played_video_path = String.valueOf(getVideoUri());
+        videoView.stopPlayback();
 
-            Log.d("seek_check_pos: ", String.valueOf(video_seek_pos));
-            Log.d("seek_check_path: ", String.valueOf(getVideoUri()));
+        Log.d("seek_check_pos: ", String.valueOf(video_seek_pos));
+        Log.d("seek_check_path: ", String.valueOf(getVideoUri()));
 
 //        if (videoView.isPlaying() && mUri!=null) {
         if (!service_opening_if_not_backPressed) {
             if (aBoolean_check_for_service_opening) {
                 intent.putExtra("video_seek_pos", video_seek_pos + 150);
                 intent.putExtra("video_uri", last_played_video_path);
-                if (GetCheckingOfController()){
+                if (GetCheckingOfController()) {
                     intent.putExtra("boolean_chk_for_btn_show", true);
-                }else {
+                } else {
                     intent.putExtra("boolean_chk_for_btn_show", false);
                 }
                 intent.setAction(Constant.ACTION.STARTFOREGROUND_ACTION);
@@ -1612,22 +1610,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Subscribe
-    public void onEvent(DataTypeVideoSeek dataTypeVideoSeek){
-        if (dataTypeVideoSeek.getVideo_seek()!=0){
+    public void onEvent(DataTypeVideoSeek dataTypeVideoSeek) {
+        if (dataTypeVideoSeek.getVideo_seek() != 0) {
             videoView.seekTo(dataTypeVideoSeek.getVideo_seek());
             videoView.start();
             Log.d("test_event: ", String.valueOf(dataTypeVideoSeek.getVideo_seek()));
         }
     }
 
-    BroadcastReceiver AppendCount = new BroadcastReceiver()
-    {
+    BroadcastReceiver AppendCount = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent)
-        {
+        public void onReceive(Context context, Intent intent) {
             Bundle b = intent.getExtras();
-            video_seek_pos=b.getInt(Constant.VIDEO_POS);
-            if (video_seek_pos!=0){
+            video_seek_pos = b.getInt(Constant.VIDEO_POS);
+            if (video_seek_pos != 0) {
                 videoView.seekTo(video_seek_pos);
                 Log.d("test_pos_broadcast: ", String.valueOf(video_seek_pos));
             }
@@ -1656,7 +1652,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     };
 
 
-
     boolean ScreenBrightness(int level, Context context) {
 
         try {
@@ -1676,9 +1671,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
             return true;
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             Log.e("Screen Brightness", "error changing screen brightness");
             return false;
         }
@@ -1728,10 +1721,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }*/
 
-    public boolean GetCheckingOfController(){
+    public boolean GetCheckingOfController() {
         return aBoolean_check_for_mediaController_working;
     }
-
 
 
     private void initControls() {

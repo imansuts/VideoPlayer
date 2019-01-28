@@ -263,8 +263,12 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
     public void onDestroy() {
         try {
             DestroyFloatingView();
-            unregisterReceiver(BroadcastForPlayPauseButton);
-            unregisterReceiver(broadcastReceiver_noti_or_floating);
+            if (BroadcastForPlayPauseButton!=null) {
+                unregisterReceiver(BroadcastForPlayPauseButton);
+            }
+            if (broadcastReceiver_noti_or_floating!=null) {
+                unregisterReceiver(broadcastReceiver_noti_or_floating);
+            }
         } catch (Exception e) {
             Log.e("Error: ", "Problem with Unregister Broadcast");
         }
@@ -306,8 +310,12 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
 
     @Override
     public boolean stopService(Intent name) {
-        unregisterReceiver(BroadcastForPlayPauseButton);
-        unregisterReceiver(broadcastReceiver_noti_or_floating);
+        if (BroadcastForPlayPauseButton!=null) {
+            unregisterReceiver(BroadcastForPlayPauseButton);
+        }
+        if (broadcastReceiver_noti_or_floating!=null) {
+            unregisterReceiver(broadcastReceiver_noti_or_floating);
+        }
         Log.d("servideChk_StopService ", "true");
         if (string_path != null && !string_path.equals("null")) {
             mediaPlayer.stop();
