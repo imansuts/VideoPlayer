@@ -135,7 +135,7 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
             Log.d("Service_path: ", string_path);
             current_uri_playing_media_or_video = string_path;
 
-            if (mediaPlayer!=null && string_path != null && !string_path.equals("null")) {
+            if (string_path != null && !string_path.equals("null")) {
                 mediaPlayer = MediaPlayer.create(getApplicationContext(), Uri.parse(current_uri_playing_media_or_video));
                 mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 mediaPlayer.seekTo(video_seek_pos);
@@ -161,45 +161,43 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
 
         } else if (intent.getAction().equals(Constant.ACTION.PLAY_ACTION)) {
 
-            if (mediaPlayer != null) {
-                if (mediaPlayer.isPlaying()) {
+            if (mediaPlayer.isPlaying()) {
                 /*views.setImageViewResource(R.id.status_bar_play,
                         R.drawable.apollo_holo_dark_play);*/
 
-                    video_seek_pos = mediaPlayer.getCurrentPosition();
-                    mediaPlayer.pause();
+                video_seek_pos = mediaPlayer.getCurrentPosition();
+                mediaPlayer.pause();
 
 
                 /*stopForeground(true);
                 stopSelf();*/
 
-                    BroadCastForPauseButtonInNotification(false);
-                    Log.d("Noti_isPlaying: ", String.valueOf(video_seek_pos));
+                BroadCastForPauseButtonInNotification(false);
+                Log.d("Noti_isPlaying: ", String.valueOf(video_seek_pos));
 
 //                CompletionOfMedia(true);
 
-                } else {
-                    /*views.setImageViewResource(R.id.status_bar_play, R.drawable.apollo_holo_dark_pause);*/
+            } else {
+                /*views.setImageViewResource(R.id.status_bar_play, R.drawable.apollo_holo_dark_pause);*/
 
-                    try {
-                        mediaPlayer.stop();
-                        mediaPlayer.reset();
-                        mediaPlayer.release();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    mediaPlayer = MediaPlayer.create(activity_parent, Uri.parse(current_uri_playing_media_or_video));
-                    mediaPlayer.seekTo(video_seek_pos);
-                    mediaPlayer.start();
+                try {
+                    mediaPlayer.stop();
+                    mediaPlayer.reset();
+                    mediaPlayer.release();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                mediaPlayer = MediaPlayer.create(activity_parent, Uri.parse(current_uri_playing_media_or_video));
+                mediaPlayer.seekTo(video_seek_pos);
+                mediaPlayer.start();
 
                 /*stopForeground(true);
                 stopSelf();*/
 
-                    BroadCastForPauseButtonInNotification(true);
-                    Log.d("Noti_isPaused: ", String.valueOf(video_seek_pos));
+                BroadCastForPauseButtonInNotification(true);
+                Log.d("Noti_isPaused: ", String.valueOf(video_seek_pos));
 
 
-                }
             }
 
             CompletionOfMedia(true);
@@ -263,12 +261,8 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
     public void onDestroy() {
         try {
             DestroyFloatingView();
-            if (BroadcastForPlayPauseButton!=null) {
-                unregisterReceiver(BroadcastForPlayPauseButton);
-            }
-            if (broadcastReceiver_noti_or_floating!=null) {
-                unregisterReceiver(broadcastReceiver_noti_or_floating);
-            }
+            unregisterReceiver(BroadcastForPlayPauseButton);
+            unregisterReceiver(broadcastReceiver_noti_or_floating);
         } catch (Exception e) {
             Log.e("Error: ", "Problem with Unregister Broadcast");
         }
@@ -310,12 +304,8 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
 
     @Override
     public boolean stopService(Intent name) {
-        if (BroadcastForPlayPauseButton!=null) {
-            unregisterReceiver(BroadcastForPlayPauseButton);
-        }
-        if (broadcastReceiver_noti_or_floating!=null) {
-            unregisterReceiver(broadcastReceiver_noti_or_floating);
-        }
+        unregisterReceiver(BroadcastForPlayPauseButton);
+        unregisterReceiver(broadcastReceiver_noti_or_floating);
         Log.d("servideChk_StopService ", "true");
         if (string_path != null && !string_path.equals("null")) {
             mediaPlayer.stop();
@@ -598,14 +588,12 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
         views.setOnClickPendingIntent(R.id.status_bar_collapse, pcloseIntent);
         bigViews.setOnClickPendingIntent(R.id.status_bar_collapse, pcloseIntent);
 
-        if (mediaPlayer != null) {
-            if (mediaPlayer.isPlaying()) {
-                views.setImageViewResource(R.id.status_bar_play, R.drawable.apollo_holo_dark_pause);
-                bigViews.setImageViewResource(R.id.status_bar_play, R.drawable.apollo_holo_dark_pause);
-            } else {
-                views.setImageViewResource(R.id.status_bar_play, R.drawable.apollo_holo_dark_play);
-                bigViews.setImageViewResource(R.id.status_bar_play, R.drawable.apollo_holo_dark_play);
-            }
+        if (mediaPlayer.isPlaying()) {
+            views.setImageViewResource(R.id.status_bar_play, R.drawable.apollo_holo_dark_pause);
+            bigViews.setImageViewResource(R.id.status_bar_play, R.drawable.apollo_holo_dark_pause);
+        } else {
+            views.setImageViewResource(R.id.status_bar_play, R.drawable.apollo_holo_dark_play);
+            bigViews.setImageViewResource(R.id.status_bar_play, R.drawable.apollo_holo_dark_play);
         }
 
         /*views.setTextViewText(R.id.status_bar_track_name, "Song Title");
@@ -688,24 +676,7 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
                 WindowManager.LayoutParams.TYPE_PHONE,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.TRANSLUCENT);*/
-
-        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            params = new WindowManager.LayoutParams(
-                    WindowManager.LayoutParams.WRAP_CONTENT,
-                    WindowManager.LayoutParams.WRAP_CONTENT,
-                    WindowManager.LayoutParams.TYPE_PHONE,
-                    WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-                    PixelFormat.TRANSLUCENT);
-        } else {
-            params = new WindowManager.LayoutParams(
-                    WindowManager.LayoutParams.WRAP_CONTENT,
-                    WindowManager.LayoutParams.WRAP_CONTENT,
-                    WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-                    WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-                    PixelFormat.TRANSLUCENT);
-        }
-
-        /*if (android.os.Build.VERSION.SDK_INT >= 23 && android.os.Build.VERSION.SDK_INT < 26) {
+        if (android.os.Build.VERSION.SDK_INT >= 23 && android.os.Build.VERSION.SDK_INT < 26) {
             params = new WindowManager.LayoutParams(
                     WindowManager.LayoutParams.WRAP_CONTENT,
                     WindowManager.LayoutParams.WRAP_CONTENT,
@@ -719,7 +690,7 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
                     WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
                     WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                     PixelFormat.TRANSLUCENT);
-        }*/
+        }
 
         //Specify the view_floating_background_transparent position
         params.gravity = Gravity.TOP | Gravity.LEFT;        //Initially view_floating_background_transparent will be added to top-left corner
