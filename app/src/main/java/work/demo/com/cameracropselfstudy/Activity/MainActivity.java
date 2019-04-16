@@ -73,7 +73,7 @@ import work.demo.com.cameracropselfstudy.DataType.DataTypeVideoSeek;
 import work.demo.com.cameracropselfstudy.Helper.MyGesture;
 import work.demo.com.cameracropselfstudy.Interface.FensterEventsListener;
 import work.demo.com.cameracropselfstudy.R;
-import work.demo.com.cameracropselfstudy.Service.ServiseVideoView;
+import work.demo.com.cameracropselfstudy.Service.ServiceVideoView;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, LocationListener, SensorEventListener {
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final int CODE_DRAW_OVER_OTHER_APP_PERMISSION = 2084;
     String last_played_video_path = "";
     boolean aBoolean_check_bind = false, mServiceBound = false, aBoolean_check_for_service_opening = false;
-    ServiseVideoView mBoundService;
+    ServiceVideoView mBoundService;
     boolean check_for_play = false;
     Intent intent;
     AudioManager audioManager;
@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         senAccelerometer = senSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         context = MainActivity.this;
-        intent = new Intent(MainActivity.this, ServiseVideoView.class);
+        intent = new Intent(MainActivity.this, ServiceVideoView.class);
 
 //        decorView = getWindow().getDecorView();
 
@@ -1653,11 +1653,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            ServiseVideoView.MyBinder myBinder = (ServiseVideoView.MyBinder) service;
+            ServiceVideoView.MyBinder myBinder = (ServiceVideoView.MyBinder) service;
             mBoundService = myBinder.getService();
             mServiceBound = true;
 
-            ((ServiseVideoView.MyBinder) service).PassDataFromActivityToService(MainActivity.this);
+            ((ServiceVideoView.MyBinder) service).PassDataFromActivityToService(MainActivity.this);
 
             Log.d("onServiceConnected: ", "true");
         }

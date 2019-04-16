@@ -47,7 +47,7 @@ import work.demo.com.cameracropselfstudy.R;
  * Created by su on 3/7/18.
  */
 
-public class ServiseVideoView extends Service implements SurfaceHolder.Callback {
+public class ServiceVideoView extends Service implements SurfaceHolder.Callback {
 
     private boolean boolean_chk_for_btn_show;
     int[] get_image_location_on_screen;
@@ -90,8 +90,8 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
     }
 
     public class MyBinder extends Binder implements ServiceInterface {
-        public ServiseVideoView getService() {
-            return ServiseVideoView.this;
+        public ServiceVideoView getService() {
+            return ServiceVideoView.this;
         }
 
 
@@ -555,22 +555,22 @@ public class ServiseVideoView extends Service implements SurfaceHolder.Callback 
 //        PendingIntent pendingIntent =
 //                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);*/
 
-        Intent previousIntent = new Intent(this, ServiseVideoView.class);
+        Intent previousIntent = new Intent(this, ServiceVideoView.class);
         previousIntent.setAction(Constant.ACTION.PREV_ACTION);
         PendingIntent ppreviousIntent = PendingIntent.getService(this, 0,
                 previousIntent, 0);
 
-        Intent playIntent = new Intent(this, ServiseVideoView.class);
+        Intent playIntent = new Intent(this, ServiceVideoView.class);
         playIntent.setAction(Constant.ACTION.PLAY_ACTION);
         PendingIntent pplayIntent = PendingIntent.getService(this, 0,
                 playIntent, 0);
 
-        Intent nextIntent = new Intent(this, ServiseVideoView.class);
+        Intent nextIntent = new Intent(this, ServiceVideoView.class);
         nextIntent.setAction(Constant.ACTION.NEXT_ACTION);
         PendingIntent pnextIntent = PendingIntent.getService(this, 0,
                 nextIntent, 0);
 
-        Intent closeIntent = new Intent(this, ServiseVideoView.class);
+        Intent closeIntent = new Intent(this, ServiceVideoView.class);
         closeIntent.setAction(Constant.ACTION.STOPFOREGROUND_ACTION);
         PendingIntent pcloseIntent = PendingIntent.getService(this, 0,
                 closeIntent, 0);

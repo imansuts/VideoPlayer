@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="work.demo.com.cameracropselfstudy">
 
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <!--<uses-permission android:name="android.permission.WRITE_SETTINGS" />-->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
+    <!--<uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />-->
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.ACTION_MANAGE_OVERLAY_PERMISSION" />
@@ -101,7 +101,7 @@
         -->
 
         <service
-            android:name=".Service.ServiseVideoView"
+            android:name=".Service.ServiceVideoView"
             android:enabled="true" />
 
         <meta-data
