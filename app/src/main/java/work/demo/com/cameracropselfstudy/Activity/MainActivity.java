@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mediaController = new MediaController(this);
         if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-                ) {
+        ) {
             aBoolean_for_play = true;
         }
         TriggerIntentData();
@@ -797,7 +797,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
                     && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
                     && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_SETTINGS) != PackageManager.PERMISSION_GRANTED
-                    ) {
+            ) {
 
                 ActivityCompat.requestPermissions(MainActivity.this, new String[]{
                                 Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -811,7 +811,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d("aBoolean_service ", String.valueOf(aBoolean_check_for_service_opening));
         if (aBoolean_check_for_service_opening) {
             if (aBoolean_check_bind) {
-                if (mBoundService!=null && mBoundService.getVideoPos() != 0) {
+                if (mBoundService != null && mBoundService.getVideoPos() != 0) {
                     videoView.stopPlayback();
                     videoView.setVideoURI(Uri.parse(mBoundService.getVideoPath()));
                     videoView.seekTo(mBoundService.getVideoPos() + 50);
@@ -1151,11 +1151,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     int i_check_for_second_time_uri_null = 0;
+
     private void PlayVideo(Uri uri) {
 
-        if (uri ==null){
-            if (i_check_for_second_time_uri_null==1){
-                if (intent!=null){
+        if (uri == null) {
+            if (i_check_for_second_time_uri_null == 1) {
+                if (intent != null) {
                     stopService(intent);
                 }
                 finishAffinity();
