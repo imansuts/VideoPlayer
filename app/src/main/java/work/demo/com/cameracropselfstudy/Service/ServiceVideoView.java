@@ -226,9 +226,10 @@ public class ServiceVideoView extends Service implements SurfaceHolder.Callback 
                 stopSelf();
                 onDestroy();
             }
+            TouchGestureOfFloatingView();
         }
 
-        TouchGestureOfFloatingView();
+
 
 
         return super.onStartCommand(intent, flags, startId);
