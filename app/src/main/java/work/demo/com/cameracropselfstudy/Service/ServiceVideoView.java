@@ -125,105 +125,107 @@ public class ServiceVideoView extends Service implements SurfaceHolder.Callback 
         Log.d("servideChk_onStartComm ", "true");
 
 
-        if (intent.getAction().equals(Constant.ACTION.STARTFOREGROUND_ACTION)) {
+        if (intent != null && intent.getAction() != null) {
+            if (intent.getAction().equals(Constant.ACTION.STARTFOREGROUND_ACTION)) {
 
 
-            video_seek_pos = intent.getExtras().getInt("video_seek_pos");
-            string_path = intent.getExtras().getString("video_uri");
-            boolean_chk_for_btn_show = intent.getExtras().getBoolean("boolean_chk_for_btn_show");
-            Log.d("Service_pos: ", String.valueOf(video_seek_pos));
-            Log.d("Service_path: ", string_path);
-            current_uri_playing_media_or_video = string_path;
+                video_seek_pos = intent.getExtras().getInt("video_seek_pos");
+                string_path = intent.getExtras().getString("video_uri");
+                boolean_chk_for_btn_show = intent.getExtras().getBoolean("boolean_chk_for_btn_show");
+                Log.d("Service_pos: ", String.valueOf(video_seek_pos));
+                Log.d("Service_path: ", string_path);
+                current_uri_playing_media_or_video = string_path;
 
-            if (string_path != null && !string_path.equals("null")) {
-                mediaPlayer = MediaPlayer.create(getApplicationContext(), Uri.parse(current_uri_playing_media_or_video));
-                mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                mediaPlayer.seekTo(video_seek_pos);
-                mediaPlayer.start();
+                if (string_path != null && !string_path.equals("null")) {
+                    mediaPlayer = MediaPlayer.create(getApplicationContext(), Uri.parse(current_uri_playing_media_or_video));
+                    mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                    mediaPlayer.seekTo(video_seek_pos);
+                    mediaPlayer.start();
 
-                CompletionOfMedia(true);
-                ServiceVideoViewFloatingWidgetInit();
+                    CompletionOfMedia(true);
+                    ServiceVideoViewFloatingWidgetInit();
 
-            }
+                }
 
-            showNotification();
-        }/* else if (intent.getAction().equals(Constant.ACTION.MAIN_ACTION)){
+                showNotification();
+            }/* else if (intent.getAction().equals(Constant.ACTION.MAIN_ACTION)){
 
             Log.i(LOG_TAG, "Clicked Previous");
 
         }*/ else if (intent.getAction().equals(Constant.ACTION.PREV_ACTION)) {
 
-            if (!((MainActivity) activity_parent).GetCheckingOfController()) {
-                PlayMusic(Uri.parse(current_uri_playing_media_or_video), false);
-            }
+                if (!((MainActivity) activity_parent).GetCheckingOfController()) {
+                    PlayMusic(Uri.parse(current_uri_playing_media_or_video), false);
+                }
 
-            Log.i(LOG_TAG, "Clicked Previous");
+                Log.i(LOG_TAG, "Clicked Previous");
 
-        } else if (intent.getAction().equals(Constant.ACTION.PLAY_ACTION)) {
+            } else if (intent.getAction().equals(Constant.ACTION.PLAY_ACTION)) {
 
-            if (mediaPlayer.isPlaying()) {
+                if (mediaPlayer.isPlaying()) {
                 /*views.setImageViewResource(R.id.status_bar_play,
                         R.drawable.apollo_holo_dark_play);*/
 
-                video_seek_pos = mediaPlayer.getCurrentPosition();
-                mediaPlayer.pause();
+                    video_seek_pos = mediaPlayer.getCurrentPosition();
+                    mediaPlayer.pause();
 
 
                 /*stopForeground(true);
                 stopSelf();*/
 
-                BroadCastForPauseButtonInNotification(false);
-                Log.d("Noti_isPlaying: ", String.valueOf(video_seek_pos));
+                    BroadCastForPauseButtonInNotification(false);
+                    Log.d("Noti_isPlaying: ", String.valueOf(video_seek_pos));
 
 //                CompletionOfMedia(true);
 
-            } else {
-                /*views.setImageViewResource(R.id.status_bar_play, R.drawable.apollo_holo_dark_pause);*/
+                } else {
+                    /*views.setImageViewResource(R.id.status_bar_play, R.drawable.apollo_holo_dark_pause);*/
 
-                try {
-                    mediaPlayer.stop();
-                    mediaPlayer.reset();
-                    mediaPlayer.release();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                mediaPlayer = MediaPlayer.create(activity_parent, Uri.parse(current_uri_playing_media_or_video));
-                mediaPlayer.seekTo(video_seek_pos);
-                mediaPlayer.start();
+                    try {
+                        mediaPlayer.stop();
+                        mediaPlayer.reset();
+                        mediaPlayer.release();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    mediaPlayer = MediaPlayer.create(activity_parent, Uri.parse(current_uri_playing_media_or_video));
+                    mediaPlayer.seekTo(video_seek_pos);
+                    mediaPlayer.start();
 
                 /*stopForeground(true);
                 stopSelf();*/
 
-                BroadCastForPauseButtonInNotification(true);
-                Log.d("Noti_isPaused: ", String.valueOf(video_seek_pos));
+                    BroadCastForPauseButtonInNotification(true);
+                    Log.d("Noti_isPaused: ", String.valueOf(video_seek_pos));
 
 
-            }
+                }
 
-            CompletionOfMedia(true);
+                CompletionOfMedia(true);
 
 
-            Log.i(LOG_TAG, "Clicked Play");
-            Log.d("seek_pp_service: ", String.valueOf(video_pos_notification_play_pause));
-        } else if (intent.getAction().equals(Constant.ACTION.NEXT_ACTION)) {
+                Log.i(LOG_TAG, "Clicked Play");
+                Log.d("seek_pp_service: ", String.valueOf(video_pos_notification_play_pause));
+            } else if (intent.getAction().equals(Constant.ACTION.NEXT_ACTION)) {
 
-            if (!((MainActivity) activity_parent).GetCheckingOfController()) {
-                PlayMusic(Uri.parse(current_uri_playing_media_or_video), true);
-            }
+                if (!((MainActivity) activity_parent).GetCheckingOfController()) {
+                    PlayMusic(Uri.parse(current_uri_playing_media_or_video), true);
+                }
 
-            Log.i(LOG_TAG, "Clicked Next");
+                Log.i(LOG_TAG, "Clicked Next");
 
-        } else if (intent.getAction().equals(
-                Constant.ACTION.STOPFOREGROUND_ACTION)) {
-            Log.i(LOG_TAG, "Received Stop Foreground Intent");
+            } else if (intent.getAction().equals(
+                    Constant.ACTION.STOPFOREGROUND_ACTION)) {
+                Log.i(LOG_TAG, "Received Stop Foreground Intent");
 
-            if (activity_parent != null) {
-                activity_parent.finish();
-            }
+                if (activity_parent != null) {
+                    activity_parent.finish();
+                }
 //            stopForeground(true);
-            DestroyNotification();
-            stopSelf();
-            onDestroy();
+                DestroyNotification();
+                stopSelf();
+                onDestroy();
+            }
         }
 
         TouchGestureOfFloatingView();
