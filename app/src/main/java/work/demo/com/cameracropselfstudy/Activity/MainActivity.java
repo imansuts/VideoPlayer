@@ -811,7 +811,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d("aBoolean_service ", String.valueOf(aBoolean_check_for_service_opening));
         if (aBoolean_check_for_service_opening) {
             if (aBoolean_check_bind) {
-                if (mBoundService.getVideoPos() != 0) {
+                if (mBoundService!=null && mBoundService.getVideoPos() != 0) {
                     videoView.stopPlayback();
                     videoView.setVideoURI(Uri.parse(mBoundService.getVideoPath()));
                     videoView.seekTo(mBoundService.getVideoPos() + 50);
