@@ -1512,9 +1512,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     intent.putExtra("boolean_chk_for_btn_show", false);
                 }
                 intent.setAction(Constant.ACTION.STARTFOREGROUND_ACTION);
+                bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
                 startService(intent);
                 aBoolean_check_bind = true;
-                bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
                 check_for_play = true;
             }
         }
